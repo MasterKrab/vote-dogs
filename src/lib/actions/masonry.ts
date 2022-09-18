@@ -6,20 +6,23 @@ const masonry = (node: HTMLElement) => {
 
 		if (items.length === 0) return
 
-		items.forEach((item) => (item as HTMLElement).style.removeProperty('margin-top'))
+		for (const item of items) {
+			;(item as HTMLElement).style.removeProperty('margin-top')
+		}
 
-		const columns = getComputedStyle(node).gridTemplateColumns.split(' ').length
+		const { gridTemplateColumns, gap } = getComputedStyle(node)
 
-		items.slice(columns).forEach((item, index) => {
-			const normalizedItem = item as HTMLElement
+		const columns = gridTemplateColumns.split(' ').length
+		const normalizedGap = toPixels(gap, node)
 
-			const bottomItemAbove = (items[index] as HTMLElement).getBoundingClientRect().bottom
-			const { top } = normalizedItem.getBoundingClientRect()
+		for (let i = columns; i < items.length; i++) {
+			const item = items[i] as HTMLElement
 
-			const { gap } = getComputedStyle(node)
+			const bottomItemAbove = (items[i - columns] as HTMLElement).getBoundingClientRect().bottom
+			const { top } = item.getBoundingClientRect()
 
-			normalizedItem.style.marginTop = `${bottomItemAbove + toPixels(gap, node) - top}px`
-		})
+			item.style.marginTop = `${bottomItemAbove + normalizedGap - top}px`
+		}
 	}
 
 	const observer = new ResizeObserver(calculateLayout)
