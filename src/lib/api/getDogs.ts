@@ -1,11 +1,11 @@
-import type { time } from '$lib/constants/times'
+import type { Time } from '$lib/constants/times'
 import type LoadFetch from '$lib/types/load-fetch'
 import type { VotedDog } from '$lib/types/dog'
 
 import toQueryParams from '$lib/utils/toQueryParams'
 
 const getDogs = async (
-	params: { take: number; skip: number; time: time; breedId?: string },
+	params: { take: number; skip: number; time: Time; breedId?: string },
 	availableFetch: LoadFetch = fetch
 ) => {
 	const response = await availableFetch(`/api/dogs?${toQueryParams(params)}`)

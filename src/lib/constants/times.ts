@@ -14,4 +14,4 @@ export const TIMES_TEXTS = {
 	[TIMES.DAY]: 'Day'
 }
 
-export type time = typeof TIMES[keyof typeof TIMES]
+export type Time = typeof TIMES[keyof typeof TIMES]

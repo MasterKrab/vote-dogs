@@ -1,9 +1,7 @@
-import type { time } from '$lib/constants/times'
-
 import prisma from '$lib/server/prisma'
-import { TIMES } from '$lib/constants/times'
+import { TIMES, Time } from '$lib/constants/times'
 
-const getDate = (time: time) => {
+const getDate = (time: Time) => {
 	const date = new Date()
 
 	switch (time) {
@@ -30,18 +28,12 @@ const getDogs = async ({
 	take = 10,
 	skip = 0,
 	breedId,
-	orderBy = {
-		date: TIMES.ALL_TIME,
-		order: 'desc'
-	}
+	time = TIMES.ALL_TIME
 }: {
 	take?: number
 	skip?: number
 	breedId?: string
-	orderBy?: {
-		date: time
-		order: 'asc' | 'desc'
-	}
+	time: Time
 }) => {
 	const dogs = await prisma.dog.findMany({
 		take,
@@ -60,17 +52,21 @@ const getDogs = async ({
 				}
 			},
 			votes:
-				orderBy.date === TIMES.ALL_TIME
+				time === TIMES.ALL_TIME
 					? undefined
 					: {
 							where: {
 								createdAt: {
-									gte: getDate(orderBy.date)
+									gte: getDate(time)
 								}
 							}
 					  }
 		},
-		orderBy: orderBy ? { votes: { _count: orderBy.order } } : undefined
+		orderBy: {
+			votes: {
+				_count: 'desc'
+			}
+		}
 	})
 
 	const normalizedDogs = dogs.map(({ _count, ...dog }) => ({
