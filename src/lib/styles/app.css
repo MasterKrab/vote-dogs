@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.select-home {
+		@apply appearance-none outline-offset-8 w-fit max-w-full px-5 py-2 rounded font-semibold capitalize text-lg text-center border border-solid border-teal-500;
+	}
+}
