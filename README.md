@@ -1,6 +1,6 @@
 # Vote Dogs 🐶
 
-Application to view and vote your favorite dogs. It is made in SvelteKit for Server Side Rendering and backend, MongoDB has database, Prisma has ORM, TypeScript and TailwindCSS to add styles quickly.
+Application to view and vote your favorite dogs. It is made in SvelteKit for Server Side Rendering and backend, MongoDB has database, Prisma has ORM, TypeScript, TailwindCSS to add styles quickly and Playwright for testing.
 
 ![Screenshot](./screenshot.png)
 
