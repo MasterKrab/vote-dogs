@@ -11,16 +11,17 @@ test.describe('Home Page', () => {
 
 		const selector = 'article img[src^="https://images.dog.ceo/breeds/"]'
 
-		const initialDogs = await page.$$eval(selector, ({ length }) => length)
+		const getAmountOfDogs = () => page.$$eval(selector, ({ length }) => length)
+
+		const initialDogs = await getAmountOfDogs()
 
 		await page.evaluate(() => {
-			window.scrollBy(0, window.innerHeight)
+			window.scrollBy(0, document.body.scrollHeight)
 		})
 
-		const finalDogs = await page.waitForFunction(
-			({ selector }) => document.querySelectorAll(selector).length,
-			{ selector }
-		)
+		await page.waitForEvent('requestfinished')
+
+		const finalDogs = await getAmountOfDogs()
 
 		expect(finalDogs).toBeGreaterThan(initialDogs)
 	})
